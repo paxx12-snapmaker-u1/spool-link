@@ -132,6 +132,11 @@ Before writing, the comma-separated UID string must be JSON-encoded:
 jsonEncode("AABBCCDD,11223344") → "\"AABBCCDD,11223344\""
 ```
 
+Android (`SpoolmanApi.jsonEncodeString`):
+```kotlin
+private fun jsonEncodeString(value: String): String = gson.toJson(value)
+```
+
 iOS (`SpoolmanAPI.jsonEncodeString`):
 ```swift
 private static func jsonEncodeString(_ s: String) -> String {

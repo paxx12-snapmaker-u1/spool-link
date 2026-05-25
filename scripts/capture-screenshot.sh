@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-    echo "Usage: $0 <ios> <name>" >&2
+    echo "Usage: $0 <ios|android> <name>" >&2
     exit 1
 }
 
@@ -26,6 +26,15 @@ NUM=$(printf '%02d' "$NEXT")
 OUT="$OUT_DIR/$NUM-$NAME.png"
 
 case "$PLATFORM" in
+    android)
+        SDK_DIR="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Library/Android/sdk}}"
+        ADB="$SDK_DIR/platform-tools/adb"
+        if [[ ! -x "$ADB" ]]; then
+            echo "adb not found at $ADB" >&2
+            exit 1
+        fi
+        "$ADB" exec-out screencap -p > "$OUT"
+        ;;
     ios)
         VENV="$REPO_ROOT/.venv/pymobiledevice3"
         PYMOBILE="$VENV/bin/pymobiledevice3"

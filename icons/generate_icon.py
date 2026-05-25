@@ -11,6 +11,7 @@ ICONS_DIR = os.path.join(ROOT_DIR, 'icons')
 BASE_SVG_PATH = os.path.join(ICONS_DIR, 'spoolman_base.svg')
 APP_ICON_PATH = os.path.join(ICONS_DIR, 'AppIcon.png')
 
+ANDROID_RES_DIR = os.path.join(ROOT_DIR, 'android-app', 'app', 'src', 'main', 'res')
 IOS_ICON_PATH = os.path.join(ROOT_DIR, 'ios-app', 'Resources', 'Assets.xcassets', 'AppIcon.appiconset', 'AppIcon.png')
 WEB_DIR = os.path.join(ROOT_DIR, 'web-app')
 
@@ -83,6 +84,26 @@ def apply_round_mask(image):
     out.paste(image, mask=mask)
     return out
 
+
+def save_android(base):
+    legacy = {
+        'mipmap-mdpi': 48,
+        'mipmap-hdpi': 72,
+        'mipmap-xhdpi': 96,
+        'mipmap-xxhdpi': 144,
+        'mipmap-xxxhdpi': 192,
+    }
+
+    for folder, size in legacy.items():
+        out = base.resize((size, size), Image.Resampling.LANCZOS)
+        out.convert('RGBA').save(os.path.join(ANDROID_RES_DIR, folder, 'ic_launcher.png'))
+        out.convert('RGBA').save(os.path.join(ANDROID_RES_DIR, folder, 'ic_launcher_round.png'))
+
+    fg = base.resize((432, 432), Image.Resampling.LANCZOS)
+    fg.save(os.path.join(ANDROID_RES_DIR, 'drawable', 'ic_launcher_foreground.png'))
+    fg.convert('L').save(os.path.join(ANDROID_RES_DIR, 'drawable', 'ic_launcher_monochrome.png'))
+
+
 def save_ios(base):
     base.convert('RGBA').save(IOS_ICON_PATH)
 
@@ -112,6 +133,7 @@ def main():
 
     icon.convert('RGBA').save(APP_ICON_PATH)
 
+    save_android(icon)
     save_ios(icon)
     save_web(icon)
 

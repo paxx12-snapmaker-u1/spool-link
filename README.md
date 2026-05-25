@@ -20,10 +20,33 @@ with two tags — one on each side — so the spool is detected regardless of or
 
 | Platform | Location | Language | Guide |
 |----------|----------|----------|-------|
+| Android | `android-app/` | Kotlin / Jetpack Compose | [User Guide](docs/ANDROID.md) |
 | iOS | `ios-app/` | Swift / SwiftUI | [User Guide](docs/IOS.md) |
 | Web | `web-app/` | Plain HTML + JS | |
 
+All three apps connect to the same Spoolman server over HTTP. Configure the server URL in Settings.
+Only the Android and iOS apps are properly tested; the web app is currently not fully tested.
+
+## Compatibility
+
+| Feature | Android | iOS | Web |
+|---------|---------|-----|-----|
+| NTAG NFC tags | Yes | Yes | Yes |
+| Mifare NFC tags | Yes | No | No |
+| Scan tag | Yes | Yes | Yes |
+| Read OpenSpool format | Yes | Yes | Yes |
+| Create and assign spool | Yes | Yes | Yes |
+| Requires HTTPS + CORS | No | No | Yes |
+| Requires paid developer certificate | No | Yes (NFC entitlement) | No |
+
 ## Running
+
+**Android** — requires a connected device with USB debugging enabled and Android SDK installed:
+
+```bash
+./android-app/run.sh
+```
+
 **iOS** — open `ios-app/NFCSpoolReader.xcodeproj` in Xcode and run on a physical device.
 Requires a paid Apple Developer subscription — NFC entitlements are not available with a free
 account.
@@ -37,12 +60,14 @@ Requires Spoolman to be accessible over HTTPS and have CORS configured to allow 
   patterns, and screen layouts for both iOS and Android.
 - [`docs/SPOOLMAN.md`](docs/SPOOLMAN.md) — Spoolman API protocol reference: all endpoints, field
   formats, NFC tag schema, and sync logic.
+- [`docs/ANDROID.md`](docs/ANDROID.md) — Android user guide.
 - [`docs/IOS.md`](docs/IOS.md) — iOS user guide.
 
 
 ## Project structure
 
 ```
+android-app/   Android app (Kotlin / Jetpack Compose)
 ios-app/       iOS app (Swift / SwiftUI)
 web-app/       Web app (HTML + JS)
 docs/          Design and API reference documentation
