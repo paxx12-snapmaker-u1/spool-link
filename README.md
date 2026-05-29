@@ -1,5 +1,7 @@
 # SpoolLink
 
+> This is just unstable proof of concept. Use this just as an example.
+
 SpoolLink is a companion app for [Spoolman](https://github.com/Donkie/Spoolman) that links existing NFC
 tags to filament spools for use with Snapmaker U1. It does not create custom NFC tags; it records and
 manages tag UIDs in Spoolman so a tag is assigned to only one spool at a time. For writing tags, use
